@@ -37,7 +37,7 @@ public class UserService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void fillDB() {
-//        save(new User("Kratos", "12345", "filipmikolajzeglen@gmail.com", "Filip", "Żegleń", "Warszawa", "ADMIN"));
-//        save(new User("General", "12345", "michal.mucha.kr@gmail.com", "Michał", "Mucha", "Kraków", "ADMIN"));
+        save(new User("Kratos", "12345", "filipmikolajzeglen@gmail.com"));
+        save(new User("General", "12345", "michal.mucha.kr@gmail.com"));
     }
 }
