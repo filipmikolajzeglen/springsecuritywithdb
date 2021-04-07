@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import pl.filipzeglen.springsecuritywithdb.model.account.UserRole;
+import pl.filipzeglen.springsecuritywithdb.model.account.Role;
 import pl.filipzeglen.springsecuritywithdb.model.repository.UserRoleRepository;
 
 import java.util.Optional;
@@ -19,15 +19,15 @@ public class UserRoleService {
         this.userRoleRepository = userRoleRepository;
     }
 
-    public Optional<UserRole> findById(Long id) {
+    public Optional<Role> findById(Long id) {
         return userRoleRepository.findById(id);
     }
 
-    public Iterable<UserRole> findAll() {
+    public Iterable<Role> findAll() {
         return userRoleRepository.findAll();
     }
 
-    public UserRole save(UserRole userRole) {
+    public Role save(Role userRole) {
         return userRoleRepository.save(userRole);
     }
 
@@ -37,9 +37,9 @@ public class UserRoleService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void fillDB() {
-//        save(new UserRole("ROLE_ADMINISTRATOR", "Administrator of SoftBastion"));
-//        save(new UserRole("ROLE_USER", "User of SoftBastion"));
-//        save(new UserRole("ROLE_STUDENT", "Student of SoftBastion"));
-//        save(new UserRole("ROLE_MODERATOR", "Moderator of SoftBastion"));
+        save(new Role("ROLE_ADMINISTRATOR", "Administrator of SoftBastion"));
+        save(new Role("ROLE_USER", "User of SoftBastion"));
+        save(new Role("ROLE_STUDENT", "Student of SoftBastion"));
+        save(new Role("ROLE_MODERATOR", "Moderator of SoftBastion"));
     }
 }
