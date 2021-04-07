@@ -1,11 +1,14 @@
 package pl.filipzeglen.springsecuritywithdb.model.account;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -13,15 +16,17 @@ public class User {
     private Long userId;
 
     @NotEmpty
+    @UniqueElements
     private String login;
     @NotEmpty
     private String password;
     @NotEmpty
+    @UniqueElements
     private String email;
 
-    private String firstName;
-    private String lastName;
-    private String location;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "detailsId", referencedColumnName = "detailsId")
+    private UserDetail details;
 
     @OneToMany(fetch = FetchType.LAZY,
             targetEntity = UserRole.class,
@@ -32,22 +37,14 @@ public class User {
                     CascadeType.REFRESH,
                     CascadeType.MERGE
             })
-    private Set<UserRole> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     public User(@NotEmpty String login,
                 @NotEmpty String password,
-                @NotEmpty String email,
-                String firstName,
-                String lastName,
-                String location,
-                Set<UserRole> roles) {
+                @NotEmpty String email) {
         this.login = login;
         this.password = password;
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.location = location;
-        this.roles = roles;
     }
 
     public User() {
@@ -83,33 +80,17 @@ public class User {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void addRole(Role userRole) {
+        this.roles.add(userRole);
     }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Set<UserRole> getRoles() { return roles; }
-
-    public void setRoles(Set<UserRole> roles) { this.roles = roles; }
 
     @Override
     public String toString() {
@@ -118,9 +99,6 @@ public class User {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", location='" + location + '\'' +
                 ", role=" + roles +
                 '}';
     }

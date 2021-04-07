@@ -3,52 +3,47 @@ package pl.filipzeglen.springsecuritywithdb.model.account;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "user_roles")
 public class UserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roleId;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
-    private String role;
-    private String description;
 
-    public UserRole(String role, String description) {
-        this.role = role;
-        this.description = description;
-    }
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id")
+    private Role role;
+
 
     public UserRole() {
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Long getId() {
+        return id;
     }
 
-    public void setRoleId(Long id) {
-        this.roleId = id;
+    public void setId(Long detailsId) {
+        this.id = detailsId;
     }
 
-    public String getRole() { return role; }
-
-    public void setRole(String role) { this.role = role; }
-
-    public String getDescription() {
-        return description;
+    public User getUser() {
+        return user;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "UserRole{" +
-                "id=" + roleId +
-                ", role='" + role + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public Role getRole() {
+        return role;
     }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
 }
