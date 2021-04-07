@@ -2,7 +2,7 @@ package pl.filipzeglen.springsecuritywithdb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.filipzeglen.springsecuritywithdb.model.account.UserRole;
+import pl.filipzeglen.springsecuritywithdb.model.account.Role;
 import pl.filipzeglen.springsecuritywithdb.service.UserRoleService;
 
 import java.util.Optional;
@@ -17,22 +17,22 @@ public class UserRoleController {
     public UserRoleController(UserRoleService userRoleService) { this.userRoleService = userRoleService; }
 
     @GetMapping("/all")
-    public Iterable<UserRole> getAllRoles() {
+    public Iterable<Role> getAllRoles() {
         return userRoleService.findAll();
     }
 
     @GetMapping
-    public Optional<UserRole> getRoleById(@RequestParam Long index) {
+    public Optional<Role> getRoleById(@RequestParam Long index) {
         return userRoleService.findById(index);
     }
 
     @PostMapping
-    public UserRole addRole(@RequestBody UserRole userRole) {
+    public Role addRole(@RequestBody Role userRole) {
         return userRoleService.save(userRole);
     }
 
     @PutMapping
-    public UserRole updateRole(@RequestBody UserRole userRole) {
+    public Role updateRole(@RequestBody Role userRole) {
         return userRoleService.save(userRole);
     }
 
